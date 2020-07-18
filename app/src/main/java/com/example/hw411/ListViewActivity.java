@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class ListViewActivity extends AppCompatActivity {
 
@@ -32,20 +33,25 @@ public class ListViewActivity extends AppCompatActivity {
 
     @NonNull
     private BaseAdapter createAdapter() {
-        int[] to = {R.id.text, R.id.textLength};
-        String[] from = {"text", "length"};
+        int[] to = {R.id.text, R.id.textLength, R.id.textImage};
+        String[] from = {"text", "length", "icon"};
         return new SimpleAdapter(this, prepareContent(), R.layout.list_item, from, to);
     }
 
     @NonNull
-    private List<HashMap<String, String>> prepareContent() {
-        List<HashMap<String, String>> list = new ArrayList<>();
-        HashMap<String, String> map;
+    private List<HashMap<String, Object>> prepareContent() {
+        Random rnd = new Random();
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        HashMap<String, Object> map;
         String[] stringArray = getString(R.string.large_text).split("\n\n");
-        for (int i = 0; i < stringArray.length; i++) {
+        int[] icons = {R.mipmap.bbicon_foreground, R.drawable.i1, R.drawable.i2,
+                R.drawable.i3, R.drawable.i4, R.drawable.i5, R.drawable.i6,
+                R.drawable.i7, R.drawable.i8,};
+        for (String s : stringArray) {
             map = new HashMap<>();
-            map.put("text", stringArray[i]);
-            map.put("length", stringArray[i].length() + "");
+            map.put("text", s);
+            map.put("length", s.length() + "");
+            map.put("icon", icons[rnd.nextInt(icons.length)]);
             list.add(map);
         }
         return list;
